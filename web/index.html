@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .wrapper {
+            background-color: #fff;
+            color: #444;
+            height: 1000px;
+            display: flex;
+        }
+
+        .box {
+            background-color: #444;
+            color: #fff;
+            height: 100%;
+            flex: 1 1 auto;
+        }
+
+        .gutter {
+            width: 20px;
+            padding: 0;
+            cursor: ew-resize;
+            flex: 0 0 auto;
+            z-index: 1001;
+        }
+
+        .gutter::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 100%;
+            background: #444;
+            margin: 0 auto;
+        }
+
+        .hider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: 1000;
+            background-color: rgba(134, 218, 218, 0.2);
+            display: none;
+        }
+
+        #foo {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body style="background: white;">
+    <div class="hider"></div>
+    <div class="wrapper">
+        <div class="box">
+            <webview id="foo" src="http://www.google.de" style="display:inline-flex; width:100%; height:100%">
+            </webview>
+        </div>
+        <div class="gutter"></div>
+        <div class="box">
+            <webview id="bar" src="http://www.github.com" style="display:inline-flex; width:100%; height:100%">
+            </webview>
+        </div>
+    </div>
+
+
+    <script>
+        var handler = document.querySelector('.gutter');
+        var wrapper = handler.closest('.wrapper');
+        var boxA = wrapper.querySelector('.box');
+        var hider = document.querySelector('.hider');
+        var isHandlerDragging = false;
+
+        document.addEventListener('mouseup', function (e) {
+            isHandlerDragging = false;
+            hider.style.display = 'none';
+        });
+
+        document.addEventListener('mousedown', function (e) {
+            if (e.target === handler) {
+                hider.style.display = 'block';
+                isHandlerDragging = true;
+            }
+        });
+
+        document.addEventListener('mousemove', function (e) {
+            if (!isHandlerDragging) {
+                return false;
+            }
+
+            var containerOffsetLeft = wrapper.offsetLeft;
+
+            // Get x-coordinate of pointer relative to container
+            var pointerRelativeXpos = e.clientX - containerOffsetLeft;
+
+            // Arbitrary minimum width set on box A, otherwise its inner content will collapse to width of 0
+            var boxAminWidth = 60;
+
+            // Resize box A
+            // * 8px is the left/right spacing between .handler and its inner pseudo-element
+            // * Set flex-grow to 0 to prevent it from growing
+            boxA.style.width = (Math.max(boxAminWidth, pointerRelativeXpos - 8)) + 'px';
+            boxA.style.flexGrow = 0;
+        });
+
+
+    </script>
+</body>
+
+</html>
