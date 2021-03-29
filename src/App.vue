@@ -3,15 +3,16 @@
   <HelloWorld msg="Welcome to Your Vue.js App" />
 </template>
 
-<script>
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
 import HelloWorld from "./components/HelloWorld.vue";
 
-export default {
-  name: "App",
+@Options({
   components: {
     HelloWorld,
   },
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style>
