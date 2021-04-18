@@ -1,27 +1,33 @@
 <template>
-	<img alt="Vue logo" src="./assets/logo.png" />
-	<HelloWorld msg="Welcome to Your Vue.js App" />
+	<div style="height: 100%">
+		<module-resolver :module="mainModule" />
+	</div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import HelloWorld from './components/HelloWorld.vue';
+import ModuleResolver from './components/ModuleResolver.vue';
+import { Module } from '@/modules/module';
+import { ClockModule } from './modules/clockModule';
 
 @Options({
 	components: {
-		HelloWorld,
+		ModuleResolver,
 	},
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+	private mainModule: Module = new ClockModule();
+}
 </script>
 
-<style>
+<style scoped>
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
+	padding: 0px;
+	margin: 0px;
 }
 </style>

@@ -19,7 +19,8 @@ module.exports = {
 		"prettier/prettier": ["error", {
             "singleQuote": true,
             "tabWidth": 4,
-			"useTabs": true
+			"useTabs": true,
+			"printWidth": 120
         }]
 	},
 	overrides: [
